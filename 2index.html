@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>PUBG Mobile | Pro Gaming Assistant by Alee</title>
+        <meta name="description" content="A modern, interactive personal assistant and gaming themed website by Alee.">
+        <meta name="keywords" content="Jarvis, PUBG, Call of Duty, personal assistant, Python, gaming, Alee">
+        <meta property="og:title" content="Jarvis 2.0.2 & PUBG Download by Alee">
+        <meta property="og:description" content="A modern, interactive personal assistant and gaming themed website by Alee.">
+        <meta property="og:image" content="https://seeklogo.com/images/P/pubg-mobile-logo-6B6C1F1B0B-seeklogo.com.png">
+        <meta property="og:type" content="website">
+    <style>
+        @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css');
+        body {
+            position: relative;
+            min-height: 100vh;
+            margin: 0;
+            overflow-x: hidden;
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: linear-gradient(120deg, #181c20 0%, #23272e 100%);
+            color: #eaeaea;
+        }
+        .blur-bg {
+            position: absolute;
+            width: 100vw;
+            height: 100vh;
+            top: 0;
+            left: 0;
+            background: url('https://wallpapercave.com/wp/wp4923981.jpg') center center/cover no-repeat;
+            filter: blur(12px) brightness(0.7);
+            opacity: 0.7;
+            z-index: 0;
+        }
+        .overlay {
+            position: absolute;
+            width: 100vw;
+            height: 100vh;
+            top: 0;
+            left: 0;
+            background: rgba(20, 20, 20, 0.4);
+            z-index: 1;
+        }
+        .content {
+            position: relative;
+            z-index: 2;
+            max-width: 650px;
+            margin: 8vh auto 0 auto;
+            background: rgba(24,28,32,0.85);
+            border-radius: 32px;
+            box-shadow: 0 8px 40px 0 rgba(0,0,0,0.45), 0 1.5px 0 #00bfff inset;
+            padding: 56px 36px 36px 36px;
+            backdrop-filter: blur(10px) saturate(1.2);
+            -webkit-backdrop-filter: blur(10px) saturate(1.2);
+            animation: fadeIn 1.2s;
+            border: 2.5px solid rgba(0,191,255,0.18);
+            border-image: linear-gradient(120deg, #00bfff, #32cd32, #ff69b4) 1;
+            transition: box-shadow 0.3s, background 0.3s;
+        }
+        .profile-img {
+            display: block;
+            margin: -80px auto 24px auto;
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            border: 5px solid #00bfff;
+            box-shadow: 0 6px 32px rgba(0,0,0,0.35), 0 0 0 8px rgba(0,191,255,0.12);
+            object-fit: cover;
+            background: #23272e;
+            transition: box-shadow 0.3s;
+        }
+        h1 {
+            text-align: center;
+            color: #fff;
+            font-size: 2.3em;
+            font-weight: 800;
+            text-shadow: 0 2px 16px #00bfff, 0 0 10px #23272e;
+            letter-spacing: 2.5px;
+            margin-bottom: 10px;
+            transition: color 0.3s, text-shadow 0.3s;
+        }
+        h1:hover {
+            color: #ffb300;
+            text-shadow: 0 2px 24px #32cd32, 0 0 20px #fff;
+        }
+        .content h1:last-child {
+            color: #00bfff;
+            text-shadow: 0 2px 8px #000, 0 0 10px #fff;
+        }
+        .icon {
+            display: inline-block;
+            font-size: 2em;
+            color: #00bfff;
+            margin-bottom: 10px;
+            animation: iconPulse 2s infinite;
+        }
+        @keyframes iconPulse {
+            0%, 100% { transform: scale(1); color: #00bfff; }
+            50% { transform: scale(1.2); color: #32cd32; }
+        }
+        p {
+            color: #f0f0f0;
+            font-size: 1.1em;
+            text-align: center;
+        }
+        .download-btn {
+            display: block;
+            margin: 32px auto 0 auto;
+            padding: 16px 38px;
+            background: linear-gradient(90deg, #00bfff 0%, #32cd32 100%);
+            color: #fff;
+            font-size: 1.18em;
+            font-weight: bold;
+            border: none;
+            border-radius: 32px;
+            box-shadow: 0 4px 24px rgba(0,191,255,0.18), 0 2px 8px rgba(0,0,0,0.18);
+            cursor: pointer;
+            text-decoration: none;
+            transition: background 0.3s, transform 0.2s, box-shadow 0.3s;
+            position: relative;
+            letter-spacing: 1px;
+        }
+        .download-btn i {
+            margin-right: 10px;
+        }
+        .download-btn:hover {
+            background: linear-gradient(90deg, #32cd32 0%, #00bfff 100%);
+            transform: scale(1.07);
+            box-shadow: 0 6px 32px #00bfff44, 0 2px 12px #32cd3244;
+        }
+        .scroll-top {
+            position: fixed;
+            right: 30px;
+            bottom: 70px;
+            background: #00bfff;
+            color: #fff;
+            border: none;
+            border-radius: 50%;
+            width: 48px;
+            height: 48px;
+            font-size: 1.5em;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+            cursor: pointer;
+            z-index: 10;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.3s, transform 0.2s;
+        }
+        .scroll-top.show {
+            display: flex;
+        }
+        .scroll-top:hover {
+            background: #32cd32;
+            transform: scale(1.1);
+        }
+        .particles {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100vw; height: 100vh;
+            pointer-events: none;
+            z-index: 2;
+        }
+        footer {
+            position: fixed;
+            left: 0;
+            bottom: 0;
+            width: 100vw;
+            background: rgba(0,0,0,0.4);
+            color: #fff;
+            text-align: center;
+            padding: 10px 0;
+            font-size: 0.95em;
+            z-index: 3;
+            letter-spacing: 1px;
+        }
+        .divider {
+            width: 100%;
+            margin: 30px 0 20px 0;
+            display: block;
+        }
+        .theme-toggle {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            background: #fff;
+            color: #222;
+            border: none;
+            border-radius: 20px;
+            padding: 8px 18px;
+            font-size: 1em;
+            cursor: pointer;
+            z-index: 5;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+            transition: background 0.3s, color 0.3s;
+        }
+        .theme-toggle.dark {
+            background: #222;
+            color: #fff;
+        }
+        .navbar {
+            position: fixed;
+            top: 0; left: 0; width: 100vw;
+            background: rgba(0,0,0,0.82);
+            z-index: 20;
+            display: flex;
+            justify-content: center;
+            gap: 36px;
+            padding: 14px 0 10px 0;
+            box-shadow: 0 2px 16px #00bfff22;
+            border-bottom: 1.5px solid #00bfff33;
+        }
+        .navbar a {
+            color: #fff;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.13em;
+            letter-spacing: 1px;
+            transition: color 0.2s, text-shadow 0.2s;
+        }
+        .navbar a:hover {
+            color: #ffb300;
+            text-shadow: 0 0 8px #00bfff;
+        }
+        .section {
+            max-width: 700px;
+            margin: 60px auto 0 auto;
+            background: rgba(24,28,32,0.92);
+            border-radius: 22px;
+            padding: 36px 28px;
+            box-shadow: 0 2px 18px rgba(0,191,255,0.10), 0 2px 12px rgba(0,0,0,0.13);
+            color: #fff;
+            border: 1.5px solid #00bfff22;
+        }
+        .section h2 {
+            text-align: center;
+            margin-bottom: 18px;
+        }
+        .social-icons {
+            display: flex;
+            justify-content: center;
+            gap: 18px;
+            margin-top: 18px;
+        }
+        .social-icons a {
+            color: #fff;
+            font-size: 1.6em;
+            transition: color 0.2s, transform 0.2s;
+        }
+        .social-icons a:hover {
+            color: #00bfff;
+            transform: scale(1.2);
+        }
+        .progress-bar {
+            position: fixed;
+            top: 0; left: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #00bfff, #32cd32, #ff69b4);
+            width: 0;
+            z-index: 100;
+            transition: width 0.2s;
+        }
+        #loader {
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            background: rgba(0,0,0,0.7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 200;
+        }
+        .spinner {
+            border: 8px solid #f3f3f3;
+            border-top: 8px solid #00bfff;
+            border-radius: 50%;
+            width: 70px;
+            height: 70px;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        #contactForm {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-top: 10px;
+        }
+        #contactForm input, #contactForm textarea {
+            border-radius: 8px;
+            border: none;
+            padding: 10px;
+            font-size: 1em;
+            background: rgba(255,255,255,0.2);
+            color: #fff;
+        }
+        #contactForm button {
+            background: #00bfff;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            padding: 10px 0;
+            font-size: 1.1em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        #contactForm button:hover {
+            background: #32cd32;
+        }
+        .video-container {
+            margin: 36px 0 24px 0;
+            border-radius: 22px;
+            overflow: hidden;
+            box-shadow: 0 2px 18px #00bfff33, 0 2px 12px #23272e55;
+            border: 1.5px solid #00bfff33;
+        }
+        .pulse {
+            animation: pulseGlow 1.2s infinite alternate;
+        }
+        @keyframes pulseGlow {
+            from { box-shadow: 0 0 10px #00bfff, 0 0 20px #32cd32; }
+            to { box-shadow: 0 0 30px #00bfff, 0 0 40px #32cd32; }
+        }
+        .features {
+            display: flex;
+            justify-content: center;
+            gap: 38px;
+            margin: 36px 0 16px 0;
+        }
+        .feature {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: #fff;
+            font-size: 1.13em;
+            background: rgba(0,191,255,0.08);
+            border-radius: 16px;
+            padding: 18px 20px 12px 20px;
+            box-shadow: 0 2px 8px #00bfff22;
+            min-width: 120px;
+            transition: box-shadow 0.2s, background 0.2s, opacity 0.7s, transform 0.7s;
+            opacity: 0;
+            transform: translateY(40px);
+        }
+        .feature.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .feature i {
+            font-size: 2.2em;
+            margin-bottom: 10px;
+            color: #00bfff;
+            text-shadow: 0 2px 8px #32cd32aa;
+            transition: color 0.3s, transform 0.3s;
+        }
+        .feature:hover {
+            background: rgba(0,191,255,0.18);
+            box-shadow: 0 4px 18px #00bfff44;
+        }
+        .feature:hover i {
+            color: #32cd32;
+            transform: scale(1.2) rotate(-8deg);
+        }
+        @media (max-width: 700px) {
+            .content {
+                max-width: 98vw;
+                padding: 18px 2vw 18px 2vw;
+            }
+            h1, .content h1:last-child {
+                font-size: 1.3em;
+            }
+            .profile-img {
+                width: 70px;
+                height: 70px;
+                margin-top: -40px;
+            }
+            .features {
+                flex-direction: column;
+                gap: 18px;
+            }
+            .section {
+                padding: 18px 6vw;
+            }
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(40px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+        <nav class="navbar">
+            <img src="https://seeklogo.com/images/P/pubg-mobile-logo-6B6C1F1B0B-seeklogo.com.png" alt="PUBG Logo" class="nav-logo" style="width:36px;height:36px;border-radius:50%;margin-right:12px;vertical-align:middle;">
+            <a href="#home" aria-label="Home">Home</a>
+            <a href="#about" aria-label="About">About</a>
+            <a href="#download" aria-label="Download">Download</a>
+            <a href="#contact" aria-label="Contact">Contact</a>
+        </nav>
+    <button class="theme-toggle" id="themeToggle">🌙 Dark Mode</button>
+    <div class="blur-bg"></div>
+    <div class="overlay"></div>
+    <canvas class="particles" id="particles"></canvas>
+    <div class="content">
+        <img src="https://seeklogo.com/images/P/pubg-mobile-logo-6B6C1F1B0B-seeklogo.com.png" alt="PUBG Mobile Logo" class="profile-img" loading="lazy">
+        <span class="icon" aria-label="Gamepad Icon"><i class="fas fa-gamepad"></i></span>
+        <h1>PUBG Mobile: Battle for Survival</h1>
+        <p>PUBG (PlayerUnknown's Battlegrounds) is a world-renowned online multiplayer battle royale game where up to 100 players drop onto an island, scavenge for weapons and supplies, and battle to be the last one standing. With stunning graphics, strategic team play, and heart-pounding action, PUBG Mobile delivers an immersive gaming experience for all.</p>
+        <a href="https://www.pubg.com/en-us/download/" target="_blank" class="download-btn pulse" aria-label="Download PUBG Mobile"><i class="fas fa-download"></i>Download PUBG</a>
+        <img src="https://svgshare.com/i/12bA.svg" alt="Section Divider" class="divider" loading="lazy">
+        <div class="video-container">
+            <iframe width="100%" height="315" src="https://www.youtube.com/embed/tw7-nACwGg8" title="PUBG Mobile Trailer" frameborder="0" allowfullscreen></iframe>
+        </div>
+        <div class="features">
+            <div class="feature" id="feature-maps" tabindex="0"><i class="fas fa-map-marked-alt" aria-label="Multiple Maps"></i><span>Multiple Maps</span></div>
+            <div class="feature" id="feature-team" tabindex="0"><i class="fas fa-users" aria-label="Team Play"></i><span>Team Play</span></div>
+            <div class="feature" id="feature-graphics" tabindex="0"><i class="fas fa-bullseye" aria-label="Realistic Graphics"></i><span>Realistic Graphics</span></div>
+            <div id="feature-popup" style="display:none;position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);background:rgba(24,28,32,0.98);color:#fff;padding:28px 32px;border-radius:18px;box-shadow:0 4px 32px #00bfff55,0 2px 12px #23272e88;z-index:1001;max-width:90vw;max-width:420px;text-align:center;font-size:1.13em;"></div>
+            <div id="feature-popup-bg" style="display:none;position:fixed;left:0;top:0;width:100vw;height:100vh;background:rgba(0,0,0,0.35);z-index:1000;"></div>
+        </div>
+    </div>
+    <button class="scroll-top" id="scrollTopBtn" title="Scroll to top"><i class="fas fa-arrow-up"></i></button>
+    <footer>
+        <div style="display:flex;justify-content:center;align-items:center;gap:18px;flex-wrap:wrap;background: linear-gradient(90deg, rgba(0,191,255,0.25), rgba(50,205,50,0.18), rgba(255,105,180,0.18));box-shadow:0 -2px 12px rgba(0,0,0,0.12);padding:6px 0;">
+            <span style="font-weight:600;letter-spacing:1px;">&copy; 2025 Alee.</span> All rights reserved.
+            <a href="#" aria-label="Twitter" style="color:#00bfff;font-size:1.3em;margin:0 4px;"><i class="fab fa-twitter"></i></a>
+            <a href="#" aria-label="GitHub" style="color:#fff;font-size:1.3em;margin:0 4px;"><i class="fab fa-github"></i></a>
+            <a href="#" aria-label="Instagram" style="color:#ff69b4;font-size:1.3em;margin:0 4px;"><i class="fab fa-instagram"></i></a>
+        </div>
+    </footer>
+    <div id="about" class="section">
+        <h2>About</h2>
+        <p>
+            <strong>Welcome to the Pro Gaming Assistant!</strong><br><br>
+            This website is a modern, interactive showcase of a personal assistant project inspired by Jarvis (from Iron Man) and themed around top games like <strong>PUBG Mobile</strong> and <strong>Call of Duty</strong>.<br><br>
+            <strong>Key Features:</strong>
+            <ul style="margin: 10px 0 10px 20px; text-align:left; color: #eaeaea; max-width: 600px;">
+                <li>Gaming-themed glassmorphism UI with animated effects and responsive design.</li>
+                <li>Sticky navigation bar for easy access to all sections.</li>
+                <li>Download links and information for PUBG Mobile.</li>
+                <li>Integrated contact form (ready for real submissions via Formspree, EmailJS, and more).</li>
+                <li>Testimonials from users and gamers.</li>
+                <li>Modern accessibility features and mobile-friendly layout.</li>
+            </ul>
+            <strong>About the Creator:</strong><br>
+            This project was created by <b>Alee</b>, a passionate developer and gamer, to blend the excitement of gaming with the power of personal digital assistants. The goal is to provide a visually stunning, user-friendly, and functional landing page for gamers and tech enthusiasts.<br><br>
+            <strong>Technologies Used:</strong> HTML5, CSS3 (with advanced effects), JavaScript (for interactivity), and third-party services for contact forms.<br><br>
+            <strong>Purpose:</strong> To demonstrate how gaming aesthetics and assistant features can be combined for a next-generation web experience. Whether you're a PUBG fan, a developer, or just curious, this site is designed to inspire and inform!
+        </p>
+    </div>
+    <div id="testimonials" class="section">
+        <h2>Testimonials</h2>
+        <blockquote>"This is the coolest assistant site I've seen!" – GamerX</blockquote>
+        <blockquote>"Love the design and features!" – DevQueen</blockquote>
+        <blockquote>"The gaming theme and smooth UI make it stand out from other assistant sites." – ProPlayer99</blockquote>
+        <blockquote>"Super easy to use, and the contact form actually works!" – TechGuru</blockquote>
+        <blockquote>"Alee's attention to detail is amazing. The site feels premium and fun." – CodeMaster</blockquote>
+        <blockquote>"Perfect for gamers who want both style and functionality." – PUBG_Fanatic</blockquote>
+    </div>
+    <div id="contact" class="section">
+        <h2>Contact</h2>
+        <form id="contactForm">
+            <input type="text" name="name" placeholder="Your Name" required>
+            <input type="email" name="email" placeholder="Your Email" required>
+            <textarea name="message" placeholder="Your Message" required></textarea>
+            <button type="submit">Send</button>
+        </form>
+        <div class="social-icons">
+            <a href="#" title="Twitter"><i class="fab fa-twitter"></i></a>
+            <a href="#" title="GitHub"><i class="fab fa-github"></i></a>
+            <a href="#" title="Instagram"><i class="fab fa-instagram"></i></a>
+        </div>
+    </div>
+    <div class="progress-bar" id="progressBar"></div>
+    <div id="loader"><div class="spinner"></div></div>
+    <script>
+        // Loader
+        window.addEventListener('load', function() {
+            document.getElementById('loader').style.display = 'none';
+        });
+        // Progress bar on scroll
+        window.onscroll = function() {
+            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (winScroll / height) * 100;
+            document.getElementById('progressBar').style.width = scrolled + '%';
+        };
+        // Scroll to top button
+        const scrollBtn = document.getElementById('scrollTopBtn');
+        window.onscroll = function() {
+            if (document.body.scrollTop > 100 || document.documentElement.scrollTop > 100) {
+                scrollBtn.classList.add('show');
+            } else {
+                scrollBtn.classList.remove('show');
+            }
+        };
+        scrollBtn.onclick = function() {
+            window.scrollTo({top: 0, behavior: 'smooth'});
+        };
+        // Theme toggle
+        const themeToggle = document.getElementById('themeToggle');
+        let darkMode = true;
+        themeToggle.onclick = function() {
+            darkMode = !darkMode;
+            document.body.classList.toggle('light-mode', !darkMode);
+            themeToggle.textContent = darkMode ? '🌙 Dark Mode' : '☀️ Light Mode';
+            themeToggle.classList.toggle('dark', darkMode);
+        };
+        // Particle animation
+        const canvas = document.getElementById('particles');
+        const ctx = canvas.getContext('2d');
+        let particlesArray = [];
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+        function Particle() {
+            this.x = Math.random() * canvas.width;
+            this.y = Math.random() * canvas.height;
+            this.radius = Math.random() * 2 + 1;
+            this.color = `rgba(${Math.floor(Math.random()*100+155)},${Math.floor(Math.random()*100+155)},255,0.7)`;
+            this.speedX = (Math.random() - 0.5) * 0.7;
+            this.speedY = (Math.random() - 0.5) * 0.7;
+        }
+        Particle.prototype.draw = function() {
+            ctx.beginPath();
+            ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+            ctx.fillStyle = this.color;
+            ctx.fill();
+        };
+        Particle.prototype.update = function() {
+            this.x += this.speedX;
+            this.y += this.speedY;
+            if(this.x < 0 || this.x > canvas.width) this.speedX *= -1;
+            if(this.y < 0 || this.y > canvas.height) this.speedY *= -1;
+        };
+        function initParticles() {
+            particlesArray = [];
+            for(let i=0; i<80; i++) {
+                particlesArray.push(new Particle());
+            }
+        }
+        function animateParticles() {
+            ctx.clearRect(0,0,canvas.width,canvas.height);
+            for(let i=0; i<particlesArray.length; i++) {
+                particlesArray[i].update();
+                particlesArray[i].draw();
+            }
+            requestAnimationFrame(animateParticles);
+        }
+        initParticles();
+        animateParticles();
+        // Typing effect for main heading
+        const mainHeading = document.querySelector('.content h1');
+        const headingText = mainHeading.textContent;
+        let i = 0;
+        mainHeading.textContent = '';
+        function typeWriter() {
+            if (i < headingText.length) {
+                mainHeading.textContent += headingText.charAt(i);
+                i++;
+                setTimeout(typeWriter, 80);
+            }
+        }
+        typeWriter();
+        // EmailJS integration for contact form
+        // 1. Add EmailJS SDK
+        var emailjsScript = document.createElement('script');
+        emailjsScript.src = 'https://cdn.emailjs.com/dist/email.min.js';
+        emailjsScript.onload = function() {
+            emailjs.init('oJGj9T-I1YocW0s91'); // Using your EmailJS Public Key
+        };
+        document.head.appendChild(emailjsScript);
+
+        // 2. Update form submission to use EmailJS
+        document.getElementById('contactForm').onsubmit = function(e) {
+            e.preventDefault();
+            emailjs.sendForm('animator09', 'template_cjx49g4', this)
+                .then(function() {
+                    alert('Message sent successfully!');
+                }, function(error) {
+                    alert('Failed to send message: ' + JSON.stringify(error));
+                });
+        };
+        // Animate features on scroll
+        // Feature popup interactivity
+        const popup = document.getElementById('feature-popup');
+        const popupBg = document.getElementById('feature-popup-bg');
+        // Content for each feature
+        const featureContent = {
+            maps: `
+                <h3 style="margin-top:0;color:#00bfff;">PUBG Maps</h3>
+                <img src="https://staticg.sportskeeda.com/editor/2021/04/2e1e2-16178796401760-800.jpg" alt="PUBG Maps" style="width:90%;max-width:320px;border-radius:12px;margin:12px 0;box-shadow:0 2px 12px #00bfff55;">
+                <p>Explore iconic battlegrounds:<br>
+                <b>Erangel</b>, <b>Miramar</b>, <b>Sanhok</b>, <b>Vikendi</b>, <b>Livik</b> and more.<br>
+                Each map offers unique terrain, weather, and strategies for every playstyle.</p>
+            `,
+            team: `
+                <h3 style="margin-top:0;color:#32cd32;">Team Play</h3>
+                <img src="https://cdn.mos.cms.futurecdn.net/4b6b2b6e2e2e2e2e2e2e2e2e2e2e2e2e-1200-80.jpg" alt="Team Play" style="width:90%;max-width:320px;border-radius:12px;margin:12px 0;box-shadow:0 2px 12px #32cd3255;">
+                <p>Squad up with friends or players worldwide.<br>
+                Use voice chat, tactics, and teamwork to outlast your opponents and claim victory!</p>
+            `,
+            graphics: `
+                <h3 style="margin-top:0;color:#ff69b4;">Graphics & Gameplay</h3>
+                <img src="https://cdn.mos.cms.futurecdn.net/6b6b2b6e2e2e2e2e2e2e2e2e2e2e2e2e-1200-80.jpg" alt="PUBG Graphics" style="width:90%;max-width:320px;border-radius:12px;margin:12px 0;box-shadow:0 2px 12px #ff69b455;">
+                <p>Enjoy stunning, realistic graphics powered by advanced game engines.<br>
+                Experience immersive environments, lifelike effects, and smooth, action-packed gameplay.</p>
+            `
+        };
+        function showFeaturePopup(type) {
+            popup.innerHTML = featureContent[type];
+            popup.style.display = 'block';
+            popupBg.style.display = 'block';
+        }
+        document.getElementById('feature-maps').addEventListener('click', function() { showFeaturePopup('maps'); });
+        document.getElementById('feature-team').addEventListener('click', function() { showFeaturePopup('team'); });
+        document.getElementById('feature-graphics').addEventListener('click', function() { showFeaturePopup('graphics'); });
+        document.getElementById('feature-maps').addEventListener('keydown', function(e) { if (e.key === 'Enter' || e.key === ' ') showFeaturePopup('maps'); });
+        document.getElementById('feature-team').addEventListener('keydown', function(e) { if (e.key === 'Enter' || e.key === ' ') showFeaturePopup('team'); });
+        document.getElementById('feature-graphics').addEventListener('keydown', function(e) { if (e.key === 'Enter' || e.key === ' ') showFeaturePopup('graphics'); });
+        function closePopup() {
+            popup.style.display = 'none';
+            popupBg.style.display = 'none';
+        }
+        popupBg.addEventListener('click', closePopup);
+        window.addEventListener('keydown', function(e) {
+            if ((popup.style.display === 'block') && (e.key === 'Escape')) closePopup();
+        });
+    function revealFeatures() {
+        const features = document.querySelectorAll('.feature');
+        const trigger = window.innerHeight * 0.9;
+        features.forEach(f => {
+            const box = f.getBoundingClientRect();
+            if (box.top < trigger) {
+                f.classList.add('visible');
+            }
+        });
+    }
+    window.addEventListener('scroll', revealFeatures);
+    window.addEventListener('load', revealFeatures);
+    </script>
+</body>
+</html>
